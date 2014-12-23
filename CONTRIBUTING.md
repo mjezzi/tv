@@ -4,8 +4,10 @@ There are various npm run tasks that support the development process.
 The notable task is `npm run start-dev`. This will build the assets, 
 run the tests, run the `examples/simple.js` hapi server, and watch for changes.
 
-`npm install`
-`npm run start-dev`
+```
+npm install
+npm run start-dev
+```
 
 Navigate to [http://localhost:8000/debug/console](http://localhost:8000/debug/console) to see the TV debug console.
 
