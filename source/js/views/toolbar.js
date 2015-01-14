@@ -15,6 +15,8 @@ exports = module.exports = internals.ToolbarView = Backbone.View.extend({
 
     template: require('../templates/toolbar.hbs'),
 
+    paused: false,
+
     events: {
         'keyup .search': '_triggerSearchChanged',
         'click .settings': '_triggerShowSettings',
@@ -32,15 +34,14 @@ exports = module.exports = internals.ToolbarView = Backbone.View.extend({
     },
 
     _pauseResumeRequests: function (e) {
-
-        var paused = $(e.currentTarget).find('.resume:visible').length === 1;
-
-        if (paused) {
+        if (this.paused) {
             this._resumeRequests();
         }
         else {
             this._pauseRequests();
         }
+
+        this.paused = !this.paused;
     },
 
     _pauseRequests: function () {

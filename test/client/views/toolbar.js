@@ -42,60 +42,84 @@ describe('ToolbarView', function () {
 
     describe('when settings is clicked', function () {
 
-        it('triggers "showSettings"', function(done) {
+        it('triggers "showSettings"', function() {
 
-            var settingsButton = view.$el.find('.settings');
-
-            settingsButton.click();
+            view.$el.find('.settings').click();
 
             expect(triggerSpy).to.have.been.calledWith('showSettings');
-            done();
         });
 
     });
 
     describe('when clear is clicked', function () {
 
-        it('triggers "clearFeed"', function(done) {
+        it('triggers "clearFeed"', function() {
 
-            var clearButton = view.$el.find('.clear');
-
-            clearButton.click();
+            view.$el.find('.clear').click();
 
             expect(triggerSpy).to.have.been.calledWith('clearFeed');
-            done();
         });
 
     });
 
     describe('when pause is clicked', function () {
 
-        it('it triggers "pause"', function(done) {
+        var $pause, $resume;
 
-            var pauseButton = view.$el.find('.pause');
+        beforeEach(function() {
 
-            pauseButton.click();
+            $pause = view.$el.find('.pause');
+            $resume = view.$el.find('.resume');
+
+            $pause.click();
+        });
+
+        it('hides the "pause" button', function() {
+
+            expect($pause).to.have.class('hidden');
+        });
+
+        it('displays the "resume" button', function() {
+
+            expect($resume).to.not.have.class('hidden');
+        });
+
+        it('it triggers "pause"', function() {
 
             expect(triggerSpy).to.have.been.calledWith('pause');
-            done();
         });
 
     });
 
     describe('when resume is clicked', function () {
 
-        // Needs to be fixed
-        // Currently pause is triggered because resume is set to visibility hidden
-        it('it triggers "resume"', function(done) {
+        var $pause, $resume;
 
-            var resumeButton = view.$el.find('.resume');
+        beforeEach(function() {
 
-            // resumeButton.removeClass('hidden');
-            // resumeButton.css('visibility', 'visible');
-            resumeButton.click();
+            $pause = view.$el.find('.pause');
+            $resume = view.$el.find('.resume');
 
-            expect(triggerSpy).to.have.been.calledWith('pause');
-            done();
+            $pause.click();
+
+            triggerSpy.reset();
+
+            $resume.click();
+        });
+
+        it('hides the "resume" button', function() {
+
+            expect($resume).to.have.class('hidden');
+        });
+
+        it('displays the "pause" button', function() {
+
+            expect($pause).to.not.have.class('hidden');
+        });
+
+        it('it triggers "resume"', function() {
+
+            expect(triggerSpy).to.have.been.calledWith('resume');
         });
 
     });
