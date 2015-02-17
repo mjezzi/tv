@@ -11,7 +11,7 @@ var FeedHeaderView = require('../../../source/js/views/feedHeader');
 var internals = {};
 
 
-describe('FeedHeader', function () {
+describe('FeedHeaderView', function () {
 
     var fakeModel, triggerSpy, view;
 
