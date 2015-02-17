@@ -1,6 +1,10 @@
 // Load modules
 
-var FeedBody = require('../../../source/js/views/feedBody');
+var Backbone = require('backbone');
+var sinon = require('sinon');
+
+var FeedBodyView = require('../../../source/js/views/feedBody');
+var RequestView = require('../../../source/js/views/request');
 
 
 // Declare internals
@@ -8,17 +12,40 @@ var FeedBody = require('../../../source/js/views/feedBody');
 var internals = {};
 
 
-describe('FeedBody', function () {
+describe('FeedBodyView', function () {
 
-    describe('when a request is add to the collection', function () {
+    var fakeModel, view;
 
-        it('adds a request to the feed body');
+    beforeEach(function() {
+
+        fakeCollection = new Backbone.Collection();
+        view = new FeedBodyView({ collection: fakeCollection });
+        view.render();
+    });
+
+    describe('when a request is added to the collection', function () {
+
+        it('adds a request to the feed body', function() {
+
+            var request = new RequestView();
+
+            view._addRequest(request);
+
+            expect(view._requestViews.length).to.eq(1);
+        });
 
     });
 
     describe('#render', function () {
 
-        it('clears the body');
+        it('clears the body', function() {
+
+            var clearSpy = sinon.spy(view, 'clear');
+
+            view.render();
+
+            expect(clearSpy).to.have.been.called;
+        });
 
     });
 
