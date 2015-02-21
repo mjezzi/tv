@@ -38,7 +38,7 @@ describe('RequestDetailsView', function () {
 
         context('with a request that has an error', function () {
 
-            it.only('displays that the request has an error', function () {
+            it('displays that the request has an error', function () {
 
                 this.model.hasError = function () { return true; };
 
@@ -51,7 +51,14 @@ describe('RequestDetailsView', function () {
 
         context('with a request that has a warning', function () {
 
-            it('displays that the request has a warning');
+            it('displays that the request has a warning', function () {
+
+                this.model.hasWarning = function () { return true; };
+
+                this.view.render();
+
+                expect(this.view.$el).to.have.class('warning');
+            });
 
         });
 
