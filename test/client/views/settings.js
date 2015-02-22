@@ -1,5 +1,5 @@
 // Load modules
-
+var Backbone = require('backbone');
 var SettingsView = require('../../../source/js/views/settings');
 
 
@@ -12,13 +12,35 @@ describe('SettingsView', function () {
 
     describe('when the client id changes', function () {
 
-        it('updates the jquery snippet');
+        it.skip('updates the jquery snippet', function () {
+            var settingsModel = new Backbone.Model();
+            var view = new SettingsView({ settingsModel: settingsModel });
+
+            // clientID is undefined, not sure it doesn't want to grab the input text box
+            var $clientId = view.$el.find('input[name=client-id]');
+            // view.$('input[name=client-id]').val('foo123');
+            // view.$('input[name=client-id]').keyup();
+
+            $clientId.val('foo123');
+            $clientId.keyup();
+            // debugger;
+            // expect($clientID.val()).to.equal('foo123');
+            // expect(view.$('input[name=client-id]').val()).to.equal('foo123');
+            expect(view.$('.jquery-snippet').text()).to.contain('var clientId = \'foo123\';');
+        });
 
     });
 
     describe('when submit is clicked', function () {
 
-        it('sets the client id on the model');
+        it.skip('sets the client id on the model', function () {
+            var settingsModel = new Backbone.Model();
+            var view = new SettingsView({ settingsModel: settingsModel });
+            view.$('.client').val('foo123');
+            view.$el.find('.submit').click();
+
+            expect(view.clientId).to.equal('foo123');
+        });
 
         context('with a changed client id', function () {
 
