@@ -1,5 +1,6 @@
 // Load modules
 var Backbone = require('backbone');
+var sinon = require('sinon');
 var SettingsView = require('../../../source/js/views/settings');
 
 
@@ -10,45 +11,54 @@ var internals = {};
 
 describe('SettingsView', function () {
 
+    beforeEach( function () {
+        this.fakeModel = new Backbone.Model({ clientId: 'baz123', channel: 'baz123' });
+        this.view = new SettingsView({ settingsModel: this.fakeModel });
+        this.view.render();
+    });
+
     describe('when the client id changes', function () {
 
-        it.skip('updates the jquery snippet', function () {
-            var settingsModel = new Backbone.Model();
-            var view = new SettingsView({ settingsModel: settingsModel });
+        it('updates the jquery snippet', function () {
 
-            // clientID is undefined, not sure it doesn't want to grab the input text box
-            var $clientId = view.$el.find('input[name=client-id]');
-            // view.$('input[name=client-id]').val('foo123');
-            // view.$('input[name=client-id]').keyup();
+            this.view.$el.find('input:text[name=client-id]').val('foo123').keyup();
 
-            $clientId.val('foo123');
-            $clientId.keyup();
-            // debugger;
-            // expect($clientID.val()).to.equal('foo123');
-            // expect(view.$('input[name=client-id]').val()).to.equal('foo123');
-            expect(view.$('.jquery-snippet').text()).to.contain('var clientId = \'foo123\';');
+            expect(this.view.$('.jquery-snippet').text()).to.contain('var clientId = \'foo123\';');
         });
 
     });
 
     describe('when submit is clicked', function () {
 
-        it.skip('sets the client id on the model', function () {
-            var settingsModel = new Backbone.Model();
-            var view = new SettingsView({ settingsModel: settingsModel });
-            view.$('.client').val('foo123');
-            view.$el.find('.submit').click();
+        beforeEach( function () {
+            this.view.$el.find('.client').val('foo123').keyup();
+            this.view.$el.find('.submit').click();
+        });
 
-            expect(view.clientId).to.equal('foo123');
+        it('sets the client id on the model', function () {
+
+            expect(this.view.settingsModel.get('clientId')).to.equal('foo123');
         });
 
         context('with a changed client id', function () {
 
-            it('sets the client id as the channel on the model');
+            it('sets the client id as the channel on the model', function (){
+
+                expect(this.view.settingsModel.get('channel')).to.equal('foo123');
+            });
 
         });
 
-        it('hides itself');
+        it('hides itself', function(){
+
+            var viewHideSpy = sinon.spy(this.view, 'hide');
+
+            this.view.$el.find('.client').val('foo123').keyup();
+
+            this.view.$el.find('.submit').click();
+
+            expect(viewHideSpy).to.have.been.called;
+        });
 
     });
 
