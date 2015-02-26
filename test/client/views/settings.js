@@ -109,13 +109,37 @@ describe('SettingsView', function () {
     });
 
     describe('#show', function () {
+        // beforeEach(function () {
+        //     this.click = function () {
+        //         this.view.$('.settings').click();
+        //     }.bind(this);
+        // });
+
+        // afterEach(function () {
+        //     delete this.view;
+        //     delete this.click;
+        // });
 
         it.skip('shows the view', function () {
-
-            this.view.show();
-
+            // need to stub out .modal('show')
+            // grab .modal from view
+            // sinon.stub('.modal', 'modal');
+            // withArgs('show')
             // expect(this.view.$('.modal')).to.be.visible;
-            expect(this.view.$('.modal')).to.have.css('display', 'block');
+            // expect(this.view.$('.modal')).to.have.css('display', 'block');
+            // expect($modal).css('display').to.equal('none');
+            // expect(this.view.$el).css('display').to.equal('none');
+            // $modal = this.view.$el.find('.modal');
+            spyModal = sinon.spy(this.view, 'modal');
+            spyMock = sinon.mock(spyModal);
+
+
+
+            this.click();
+            spyMock.expects('modal').withArgs('show');
+            // expect($modal).css('display').to.equal('block');
+
+            // expect(this.view.serverLogsView.$el.css('display')).to.equal('block');
         });
 
     });
