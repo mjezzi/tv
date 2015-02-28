@@ -13,15 +13,16 @@ describe('SettingsView', function () {
 
     beforeEach( function () {
 
-        this.fakeModel = new Backbone.Model({ clientId: 'baz123', channel: 'baz123' });
+        this.fakeModel = new Backbone.Model({ clientId: 'bar123', channel: 'bar123' });
         this.view = new SettingsView({ settingsModel: this.fakeModel });
         this.view.render();
-        this.view.$el.find('.client').val('foo123').keyup();
     });
 
     describe('when the client id changes', function () {
 
         it('updates the jquery snippet', function () {
+
+            this.view.$el.find('.client').val('foo123').keyup();
 
             expect(this.view.$('.jquery-snippet').text()).to.contain('var clientId = \'foo123\';');
         });
@@ -30,26 +31,29 @@ describe('SettingsView', function () {
 
     describe('when submit is clicked', function () {
 
-        beforeEach( function () {
+        describe('after the client id was changed', function () {
 
-            this.view.$el.find('.submit').click();
-        });
+            beforeEach(function () {
 
-        it('sets the client id on the model', function () {
+                this.view.$el.find('.client').val('foo123').keyup();
 
-            expect(this.view.settingsModel.get('clientId')).to.equal('foo123');
-        });
-
-        context('with a changed client id', function () {
-
-            it('sets the client id as the channel on the model', function (){
-
-                expect(this.view.settingsModel.get('channel')).to.equal('foo123');
+                this.view.$('.submit').click();
             });
 
+            it('sets the client id on the model', function () {
+
+                expect(this.view.settingsModel.get('clientId')).to.equal('foo123');
+            });
+
+            it('sets the client id as the channel on the model', function (){
+                expect(this.view.settingsModel.get('channel')).to.equal('foo123');
+            });
         });
 
+
         it('hides itself', function(){
+
+            this.view.$el.find('.submit').click();
 
             var viewHideSpy = sinon.spy(this.view, 'hide');
 
@@ -70,7 +74,7 @@ describe('SettingsView', function () {
 
             this.view.$el.find('.cancel').click();
 
-            expect(this.view.model.get('clientId')).to.equal('baz123');
+            expect(this.view.model.get('clientId')).to.equal('bar123');
         });
 
         it('hides itself', function () {
@@ -109,48 +113,23 @@ describe('SettingsView', function () {
     });
 
     describe('#show', function () {
-        // beforeEach(function () {
-        //     this.click = function () {
-        //         this.view.$('.settings').click();
-        //     }.bind(this);
-        // });
 
-        // afterEach(function () {
-        //     delete this.view;
-        //     delete this.click;
-        // });
+        it('shows the view', function () {
 
-        it.skip('shows the view', function () {
-            // need to stub out .modal('show')
-            // grab .modal from view
-            // sinon.stub('.modal', 'modal');
-            // withArgs('show')
-            // expect(this.view.$('.modal')).to.be.visible;
-            // expect(this.view.$('.modal')).to.have.css('display', 'block');
-            // expect($modal).css('display').to.equal('none');
-            // expect(this.view.$el).css('display').to.equal('none');
-            // $modal = this.view.$el.find('.modal');
-            spyModal = sinon.spy(this.view, 'modal');
-            spyMock = sinon.mock(spyModal);
+            this.view.show();
 
-
-
-            this.click();
-            spyMock.expects('modal').withArgs('show');
-            // expect($modal).css('display').to.equal('block');
-
-            // expect(this.view.serverLogsView.$el.css('display')).to.equal('block');
+            expect(this.view.$('.modal')).to.have.css('display', 'block');
         });
 
     });
 
     describe('#hide', function () {
 
-        it.skip('hides the view', function () {
+        it('hides the view', function () {
 
-           this.view.hide();
+            this.view.show();
+            this.view.hide();
 
-            // expect(this.view.$('.modal')).to.not.be.visible;
             expect(this.view.$('.modal')).to.have.css('display', 'none');
         });
 
