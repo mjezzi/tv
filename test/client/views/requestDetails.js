@@ -1,6 +1,7 @@
 // Load modules
 
 var Backbone = require('backbone');
+var Request = require('../../../source/js/models/request');
 var sinon = require('sinon');
 
 var RequestDetailsView = require('../../../source/js/views/requestDetails');
@@ -15,9 +16,7 @@ describe('RequestDetailsView', function () {
 
     beforeEach( function () {
 
-        this.model = new Backbone.Model();
-        this.model.hasError = function() {};
-        this.model.hasWarning = function() {};
+        this.model = new Request();
         this.view = new RequestDetailsView({ model: this.model });
     });
 
@@ -40,7 +39,9 @@ describe('RequestDetailsView', function () {
 
             it('displays that the request has an error', function () {
 
-                this.model.hasError = function () { return true; };
+                var hasErrorStub = sinon.stub(this.model, 'hasError');
+
+                hasErrorStub.returns(true);
 
                 this.view.render();
 
@@ -53,7 +54,9 @@ describe('RequestDetailsView', function () {
 
             it('displays that the request has a warning', function () {
 
-                this.model.hasWarning = function () { return true; };
+                var hasWarningStub = sinon.stub(this.model, 'hasWarning');
+
+                hasWarningStub.returns(true);
 
                 this.view.render();
 

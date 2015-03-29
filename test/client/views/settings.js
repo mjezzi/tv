@@ -68,7 +68,7 @@ describe('SettingsView', function () {
 
     describe('when cancel is clicked', function () {
 
-        it('resets the views client id back to original client id', function () {
+        it('resets the view\'s client id back to original client id', function () {
 
             this.view.$el.find('.client').val('foo123').keyup();
 
@@ -86,7 +86,7 @@ describe('SettingsView', function () {
             expect(viewHideSpy).to.have.been.called;
         });
 
-        it('re-renders itself to reset it\'s display for the next time it\'s shown', function () {
+        it('re-renders itself to reset its display for the next time it\'s shown', function () {
 
             var viewRenderSpy = sinon.spy(this.view, 'render');
 
@@ -97,19 +97,25 @@ describe('SettingsView', function () {
 
     });
 
-    describe('when the original settings model is changed', function () {
+    describe('when the original settings model channel changes', function () {
 
-        it('changes the view\'s model', function () {
-
-            this.view.settingsModel.set('clientId', '1');
+        it('updates the view\'s model channel', function () {
 
             this.view.settingsModel.set('channel', 'changedChannel');
-
-            expect(this.view.model.get('clientId')).to.equal('1');
 
             expect(this.view.model.get('channel')).to.equal('changedChannel');
         });
 
+    });
+
+    describe('when the original settings model client id changes', function () {
+
+        it('updates the view\s model\s client id', function () {
+
+             this.view.settingsModel.set('clientId', '1');
+
+             expect(this.view.model.get('clientId')).to.equal('1');
+        });
     });
 
     describe('#show', function () {
@@ -128,6 +134,7 @@ describe('SettingsView', function () {
         it('hides the view', function () {
 
             this.view.show();
+
             this.view.hide();
 
             expect(this.view.$('.modal')).to.have.css('display', 'none');
